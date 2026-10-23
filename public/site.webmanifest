@@ -1,0 +1,14 @@
+{
+  "name": "ABRACE — Espaço Multidisciplinar",
+  "short_name": "ABRACE",
+  "description": "Espaço multidisciplinar em Patos de Minas — MG com atendimentos em fonoaudiologia, terapia ocupacional e psicologia.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FDFBFB",
+  "theme_color": "#C98FA0",
+  "icons": [
+    { "src": "/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,200 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ *
+ *  Identidade visual ABRACE — derivada da logo oficial
+ *  Rosa antigo é a cor de marca; lilás, verde, turquesa e dourado
+ *  aparecem apenas como detalhes pontuais.
+ * ------------------------------------------------------------------ */
+@theme {
+  --font-display: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Rosa antigo — cor principal */
+  --color-rosa-50: #fbf4f6;
+  --color-rosa-100: #f8f2f3;
+  --color-rosa-200: #f0dde2;
+  --color-rosa-300: #e3c2ca;
+  --color-rosa-400: #d6a6b2;
+  --color-rosa-500: #c98fa0;
+  --color-rosa-600: #b57484;
+  --color-rosa-700: #96596a;
+  --color-rosa-800: #6f404e;
+  --color-rosa-900: #4a2a34;
+
+  /* Tinta — textos e rodapé */
+  --color-tinta-700: #5c4751;
+  --color-tinta-800: #3f2d36;
+  --color-tinta-900: #2d1f26;
+
+  /* Acentos — uso pontual */
+  --color-lilas: #a98bb8;
+  --color-lilas-suave: #ede6f2;
+  --color-verde: #8fa59a;
+  --color-verde-suave: #e6ece9;
+  --color-turquesa: #5fa3a2;
+  --color-turquesa-suave: #e0efef;
+  --color-dourado: #c4994f;
+  --color-dourado-suave: #f6edda;
+
+  /* Bases */
+  --color-creme: #fdfbfb;
+  --color-nevoa: #f8f2f3;
+
+  --radius-arco: 14rem;
+
+  --shadow-suave: 0 1px 2px rgb(61 36 45 / 0.04), 0 12px 32px -18px rgb(61 36 45 / 0.22);
+  --shadow-elevado: 0 2px 4px rgb(61 36 45 / 0.05), 0 28px 60px -32px rgb(61 36 45 / 0.3);
+
+  --ease-suave: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    scroll-behavior: smooth;
+    /* altura do cabeçalho fixo, usada pelo scroll-margin das âncoras */
+    --altura-cabecalho: 4.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --altura-cabecalho: 5.5rem;
+    }
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-creme);
+    color: var(--color-tinta-800);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-tinta-900);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Âncoras não ficam escondidas atrás do cabeçalho fixo */
+  [id] {
+    scroll-margin-top: calc(var(--altura-cabecalho) + 1.5rem);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-rosa-700);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-rosa-300);
+    color: var(--color-tinta-900);
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+@layer components {
+  /* Contêiner editorial padrão */
+  .container-abrace {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+    max-width: 78rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-abrace {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container-abrace {
+      padding-inline: 3rem;
+    }
+  }
+
+  /* Moldura em arco — inspirada nos vãos arqueados do próprio espaço */
+  .moldura-arco {
+    border-radius: var(--radius-arco) var(--radius-arco) 1.75rem 1.75rem;
+    overflow: hidden;
+  }
+
+  .moldura-arco-suave {
+    border-radius: 7rem 7rem 1.5rem 1.5rem;
+    overflow: hidden;
+  }
+
+  /* Gradiente discreto para dar profundidade às fotos */
+  .veu-foto::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(45 31 38 / 0.28), transparent 45%);
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  .texto-equilibrado {
+    text-wrap: balance;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ *  Animações de entrada — desativadas quando há preferência por
+ *  movimento reduzido.
+ * ------------------------------------------------------------------ */
+.revelar {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition:
+    opacity 0.7s var(--ease-suave),
+    transform 0.7s var(--ease-suave);
+  transition-delay: var(--atraso, 0ms);
+}
+
+.revelar[data-visivel='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    scroll-behavior: auto;
+  }
+
+  .revelar {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
