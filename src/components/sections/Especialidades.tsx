@@ -1,5 +1,5 @@
 import { ArrowUpRight } from 'lucide-react';
-import { especialidades, type Especialidade } from '../../data/site';
+import { especialidades, retrato, type Especialidade } from '../../data/site';
 import { whatsappUrl, type AssuntoWhatsapp } from '../../lib/whatsapp';
 import { Secao, TituloSecao } from '../ui/Secao';
 import { Revelar } from '../ui/Revelar';
@@ -17,7 +17,7 @@ function Etiqueta({ especialidade }: { especialidade: Especialidade }) {
   const acento = acentos[especialidade.acento];
   return (
     <span
-      className={`inline-flex w-fit shrink-0 items-center gap-2 self-start rounded-full ${acento.fundo} px-3.5 py-1.5 text-[0.6875rem] font-semibold tracking-[0.14em] uppercase ${acento.texto}`}
+      className={`inline-flex w-fit items-center gap-2 rounded-full ${acento.fundo} px-3.5 py-1.5 text-[0.6875rem] font-semibold tracking-[0.14em] uppercase ${acento.texto}`}
     >
       <Chevron className="w-3" />
       {especialidade.subtitulo}
@@ -25,27 +25,40 @@ function Etiqueta({ especialidade }: { especialidade: Especialidade }) {
   );
 }
 
-function LinkConsulta({ id, titulo }: { id: string; titulo: string }) {
+function Retratos({ especialidade }: { especialidade: Especialidade }) {
+  const sozinha = especialidade.profissionais.length === 1;
+
   return (
-    <BotaoLink
-      href={whatsappUrl(id as AssuntoWhatsapp)}
-      externo
-      variante="discreto"
-      className="group/link mt-7 font-medium"
-      aria-label={`Consultar atendimento de ${titulo} pelo WhatsApp`}
+    <ul
+      className={
+        sozinha
+          ? 'mx-auto grid max-w-[17rem] grid-cols-1'
+          : 'grid grid-cols-2 gap-4 sm:gap-5'
+      }
     >
-      Consultar atendimento
-      <ArrowUpRight
-        className="size-4 transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"
-        aria-hidden="true"
-      />
-    </BotaoLink>
+      {especialidade.profissionais.map((profissional) => (
+        <li key={profissional.imagem}>
+          <figure className="group/foto relative overflow-hidden rounded-[1.5rem] bg-rosa-100 shadow-suave">
+            <Foto
+              src={profissional.imagem}
+              alt={`${profissional.nome}, ${profissional.cargo.toLowerCase()} da ABRACE.`}
+              largura={retrato.largura}
+              altura={retrato.altura}
+              sizes="(min-width: 1024px) 18vw, (min-width: 640px) 24vw, 44vw"
+              className="w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover/foto:scale-[1.04]"
+            />
+            <span
+              aria-hidden="true"
+              className={`absolute inset-x-0 bottom-0 h-1 ${acentos[especialidade.acento].traco}`}
+            />
+          </figure>
+        </li>
+      ))}
+    </ul>
   );
 }
 
 export function Especialidades() {
-  const [destaque, ...demais] = especialidades;
-
   return (
     <Secao id="especialidades" fundo="creme" className="overflow-hidden">
       <div
@@ -72,70 +85,60 @@ export function Especialidades() {
           />
         </Revelar>
 
-        {/* Destaque: composição horizontal com moldura em arco */}
-        <Revelar atraso={60} className="mt-14 lg:mt-16">
-          <article className="grid overflow-hidden rounded-[2rem] border border-rosa-200 bg-white shadow-suave lg:grid-cols-[0.85fr_1.15fr]">
-            <div className="relative aspect-[5/4] bg-rosa-100 lg:aspect-auto lg:min-h-[24rem]">
-              <Foto
-                src={destaque.imagem}
-                alt={destaque.imagemAlt}
-                largura={destaque.largura}
-                altura={destaque.altura}
-                sizes="(min-width: 1024px) 38vw, 100vw"
-                className="absolute inset-0 size-full object-cover object-top"
-              />
-            </div>
+        <div className="mt-16 flex flex-col gap-16 lg:mt-20 lg:gap-24">
+          {especialidades.map((especialidade, indice) => {
+            // Alterna o lado das fotos para dar ritmo editorial à seção.
+            const invertido = indice % 2 === 1;
 
-            <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-14">
-              <Etiqueta especialidade={destaque} />
-              <h3 className="mt-5 text-[1.625rem] font-semibold sm:text-[2rem]">
-                {destaque.titulo}
-              </h3>
-              <p className="mt-4 max-w-xl text-[1.0625rem] leading-[1.75] text-tinta-700">
-                {destaque.descricao}
-              </p>
-              <LinkConsulta id={destaque.id} titulo={destaque.titulo} />
-            </div>
-          </article>
-        </Revelar>
+            return (
+              <Revelar key={especialidade.id} as="article">
+                <article className="grid items-center gap-10 border-t border-rosa-200 pt-12 first:border-0 first:pt-0 lg:grid-cols-2 lg:gap-16 xl:gap-20">
+                  <div className={invertido ? 'lg:order-2' : ''}>
+                    <Etiqueta especialidade={especialidade} />
 
-        {/* Demais áreas: cartões verticais com imagem no topo */}
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
-          {demais.map((especialidade, indice) => (
-            <Revelar key={especialidade.id} as="article" atraso={100 + indice * 90}>
-              <article className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-rosa-200 bg-white shadow-suave transition-shadow duration-500 ease-[cubic-bezier(.22,.61,.36,1)] hover:shadow-elevado">
-                <div className="relative aspect-[4/3] overflow-hidden bg-rosa-100">
-                  <Foto
-                    src={especialidade.imagem}
-                    alt={especialidade.imagemAlt}
-                    largura={especialidade.largura}
-                    altura={especialidade.altura}
-                    sizes="(min-width: 768px) 46vw, 100vw"
-                    className="size-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(.22,.61,.36,1)] group-hover:scale-[1.04]"
-                  />
-                  <span
-                    aria-hidden="true"
-                    className={`absolute inset-x-0 bottom-0 h-1 ${acentos[especialidade.acento].traco}`}
-                  />
-                </div>
+                    <h3 className="mt-5 text-[1.625rem] font-semibold sm:text-[2rem]">
+                      {especialidade.titulo}
+                    </h3>
 
-                <div className="flex flex-1 flex-col p-7 sm:p-9">
-                  <Etiqueta especialidade={especialidade} />
-                  <h3 className="mt-5 text-[1.375rem] font-semibold sm:text-[1.5rem]">
-                    {especialidade.titulo}
-                  </h3>
-                  <p className="mt-3.5 flex-1 text-[1rem] leading-[1.7] text-tinta-700">
-                    {especialidade.descricao}
-                  </p>
-                  <LinkConsulta id={especialidade.id} titulo={especialidade.titulo} />
-                </div>
-              </article>
-            </Revelar>
-          ))}
+                    <p className="mt-4 max-w-xl text-[1.0625rem] leading-[1.75] text-tinta-700">
+                      {especialidade.descricao}
+                    </p>
+
+                    <p className="mt-6 text-[0.8125rem] leading-relaxed text-tinta-700/75">
+                      {especialidade.profissionais.length > 1
+                        ? 'Profissionais que atuam nesta área:'
+                        : 'Profissional que atua nesta área:'}{' '}
+                      <span className="font-medium text-tinta-800">
+                        {especialidade.profissionais.map((p) => p.nome).join(' e ')}.
+                      </span>
+                    </p>
+
+                    <BotaoLink
+                      href={whatsappUrl(especialidade.id as AssuntoWhatsapp)}
+                      externo
+                      variante="discreto"
+                      className="group/link mt-5 font-medium"
+                      aria-label={`Consultar atendimento de ${especialidade.titulo} pelo WhatsApp`}
+                    >
+                      Consultar atendimento
+                      <ArrowUpRight
+                        className="size-4 transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5"
+                        aria-hidden="true"
+                      />
+                    </BotaoLink>
+                  </div>
+
+                  <div className={invertido ? 'lg:order-1' : ''}>
+                    <Retratos especialidade={especialidade} />
+                  </div>
+                </article>
+              </Revelar>
+            );
+          })}
         </div>
 
-        <Revelar atraso={160}>
-          <p className="mt-10 max-w-3xl text-[0.875rem] leading-relaxed text-tinta-700/80">
+        <Revelar atraso={120}>
+          <p className="mt-14 max-w-3xl text-[0.875rem] leading-relaxed text-tinta-700/80">
             As informações desta página são institucionais e não substituem avaliação profissional.
             A definição do atendimento mais adequado é feita pela equipe, caso a caso.
           </p>

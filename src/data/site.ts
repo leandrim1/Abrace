@@ -65,17 +65,24 @@ export const resumoHorario = 'Segunda a sexta, das 07h às 17h30';
 
 export type EspecialidadeId = 'fonoaudiologia' | 'terapia-ocupacional' | 'psicologia';
 
+export type Profissional = {
+  /** Como a equipe é apresentada no material oficial da ABRACE. */
+  nome: string;
+  cargo: string;
+  imagem: string;
+};
+
 export type Especialidade = {
   id: EspecialidadeId;
   titulo: string;
   subtitulo: string;
   descricao: string;
-  imagem: string;
-  imagemAlt: string;
-  largura: number;
-  altura: number;
+  profissionais: Profissional[];
   acento: 'turquesa' | 'verde' | 'lilas';
 };
+
+/** Todas as fotos da equipe compartilham a mesma proporção. */
+export const retrato = { largura: 640, altura: 1138 } as const;
 
 export const especialidades: Especialidade[] = [
   {
@@ -84,10 +91,10 @@ export const especialidades: Especialidade[] = [
     subtitulo: 'Comunicação e linguagem',
     descricao:
       'Um atendimento voltado à comunicação, à linguagem, à fala e a outras necessidades relacionadas à atuação fonoaudiológica, conforme avaliação profissional.',
-    imagem: '/img/atendimento-fonoaudiologia',
-    imagemAlt: 'Profissional da ABRACE em ambiente de atendimento.',
-    largura: 640,
-    altura: 794,
+    profissionais: [
+      { nome: 'Tia Marina', cargo: 'Fonoaudióloga', imagem: '/img/equipe-marina' },
+      { nome: 'Tia Jôsiane', cargo: 'Fonoaudióloga', imagem: '/img/equipe-josiane' },
+    ],
     acento: 'turquesa',
   },
   {
@@ -96,10 +103,9 @@ export const especialidades: Especialidade[] = [
     subtitulo: 'Autonomia no dia a dia',
     descricao:
       'Um espaço de cuidado voltado à participação nas atividades do dia a dia, à autonomia e ao desenvolvimento de habilidades, conforme as necessidades individuais.',
-    imagem: '/img/sala-terapia-ocupacional',
-    imagemAlt: 'Profissional da ABRACE na sala preparada para atividades de terapia ocupacional.',
-    largura: 900,
-    altura: 675,
+    profissionais: [
+      { nome: 'Tia Amanda', cargo: 'Terapeuta Ocupacional', imagem: '/img/equipe-amanda' },
+    ],
     acento: 'verde',
   },
   {
@@ -108,10 +114,10 @@ export const especialidades: Especialidade[] = [
     subtitulo: 'Abordagens ABA e Denver',
     descricao:
       'Atendimento em psicologia com referências às abordagens ABA e Denver, de acordo com os serviços oferecidos pela equipe e as necessidades de cada pessoa.',
-    imagem: '/img/sala-psicologia',
-    imagemAlt: 'Profissional da ABRACE em ambiente de atendimento de psicologia.',
-    largura: 900,
-    altura: 676,
+    profissionais: [
+      { nome: 'Tia Gisele', cargo: 'Psicóloga', imagem: '/img/equipe-gisele' },
+      { nome: 'Tia Monize', cargo: 'Psicóloga', imagem: '/img/equipe-monize' },
+    ],
     acento: 'lilas',
   },
 ];

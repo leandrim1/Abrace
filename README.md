@@ -63,8 +63,14 @@ nunca é usada como ornamento nem recolorida.
 ## Conteúdo
 
 Todas as informações institucionais vêm de `src/data/site.ts` e seguem apenas os dados
-oficiais fornecidos. O projeto não afirma resultados terapêuticos e não inclui
-profissionais, registros, certificações, convênios, preços ou depoimentos.
+oficiais fornecidos. O projeto não afirma resultados terapêuticos e não inclui registros,
+certificações, convênios, preços ou depoimentos.
+
+Cada especialidade lista as profissionais que atuam na área, a partir do material
+oficial da ABRACE: Fonoaudiologia (Tia Marina e Tia Jôsiane), Terapia Ocupacional
+(Tia Amanda) e Psicologia (Tia Gisele e Tia Monize). As fotos da equipe são as artes
+oficiais do próprio espaço — nome, cargo e experiência fazem parte da imagem enviada
+pela instituição e não foram redigitados como texto.
 
 As fotografias são registros do próprio espaço e da equipe da ABRACE, processadas para
 web em `public/img/` (WebP com alternativa JPEG, dimensões explícitas e carregamento
