@@ -12,8 +12,6 @@ import { Foto } from '../ui/Foto';
 const disposicao = [
   'md:col-span-5 aspect-[4/5] md:aspect-square',
   'md:col-span-3 aspect-[3/4] md:aspect-[4/7]',
-  'md:col-span-3 aspect-[3/4] md:aspect-[5/6]',
-  'md:col-span-5 aspect-[5/4] md:aspect-[7/5]',
   'md:col-span-8 aspect-[2/1] md:aspect-[12/5]',
 ];
 
@@ -83,8 +81,8 @@ export function Espaco() {
             }
             descricao={
               <p>
-                Recepção, salas de atendimento, espaços terapêuticos e os recursos utilizados no dia
-                a dia — registros feitos no próprio espaço da ABRACE.
+                Salas de atendimento, acesso aos ambientes e a equipe que recebe você —
+                registros feitos no próprio espaço da ABRACE.
               </p>
             }
           />

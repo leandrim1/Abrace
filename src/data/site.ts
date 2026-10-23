@@ -166,21 +166,6 @@ export const galeria: FotoEspaco[] = [
     altura: 875,
   },
   {
-    src: '/img/espaco-terapia-ocupacional',
-    alt: 'Profissional da ABRACE na sala de terapia ocupacional, com recursos para atividades.',
-    legenda: 'Sala de terapia ocupacional',
-    largura: 620,
-    altura: 1097,
-    foco: 'topo',
-  },
-  {
-    src: '/img/espaco-psicologia',
-    alt: 'Espaço terapêutico da ABRACE, com mobiliário claro e decoração acolhedora.',
-    legenda: 'Espaço terapêutico',
-    largura: 900,
-    altura: 631,
-  },
-  {
     src: '/img/equipe-uniforme',
     alt: 'Profissionais da ABRACE reunidas no espaço.',
     legenda: 'Equipe ABRACE',
